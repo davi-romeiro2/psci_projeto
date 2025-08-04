@@ -1,0 +1,418 @@
+:root {
+    --rosa: #BB8991;
+    --verde-escuro: #3A503D;
+    --verde-claro: #91A697;
+    --cinza: #C4C4C4;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: var(--verde-claro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 430px;
+    text-align: center;
+}
+
+h1,
+h2 {
+    color: var(--verde-escuro);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: left;
+    font-weight: 600;
+    color: var(--verde-escuro);
+    margin-bottom: 0.5rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+label {
+    text-align: left;
+    color: var(--verde-escuro);
+    font-weight: bold;
+}
+
+input,
+select {
+    padding: 0.7rem;
+    border: 1px solid var(--cinza);
+    border-radius: 8px;
+    width: 100%;
+}
+
+button {
+    background: var(--rosa);
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 1rem;
+}
+
+button:hover {
+    background: #a46e77;
+}
+
+.forgot-password {
+    font-size: 0.9rem;
+    color: var(--verde-escuro);
+    text-decoration: none;
+    text-align: center;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.register-section {
+    margin-top: 1rem;
+}
+
+.register-section p {
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    color: var(--verde-escuro);
+}
+
+.register-section a {
+    font-size: 0.95rem;
+    color: var(--verde-escuro);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-section a:hover {
+    text-decoration: underline;
+}
+
+#register-modal {
+    display: none;
+    text-align: left;
+    max-height: 80vh;
+    /* 80% da altura da viewport */
+    overflow-y: auto;
+    padding: 1.5rem;
+    /* fundo branco para o conteúdo */
+    border-radius: 12px;
+    /* sombra suave usando o verde escuro */
+    position: relative;
+    z-index: 10;
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding-left: 0.5rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.register-form label,
+.register-form input,
+.register-form select {
+    margin-top: 10px;
+}
+
+.register-form input,
+.register-form select {
+    margin-bottom: 20px;
+}
+
+.age-question-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.age-question-text {
+    margin: 0;
+    font-weight: bold;
+    color: var(--verde-escuro);
+    white-space: nowrap;
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+    /* uma opção por linha */
+    gap: 0.5rem;
+    /* espaço entre as opções */
+    padding-left: 0;
+    /* remove indentação extra */
+}
+
+.checkboxes label {
+    color: #3A503D;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* distância entre checkbox e texto */
+    cursor: pointer;
+    user-select: none;
+    /* evita seleção acidental do texto ao clicar */
+}
+
+.checkboxes input[type="checkbox"] {
+    accent-color: #BB8991;
+    width: 18px;
+    /* tamanho fixo da caixa para uniformizar */
+    height: 18px;
+    margin: 0;
+    /* remove margens padrões */
+    flex-shrink: 0;
+    /* para não encolher a checkbox */
+}
+
+/* Estilo do select igual aos inputs */
+.register-form select {
+  appearance: none;          /* remove estilo padrão da seta */
+  -webkit-appearance: none;  /* para Safari */
+  -moz-appearance: none;     /* para Firefox */
+  background-color: white;   /* mesmo fundo dos inputs */
+  border: 1px solid var(--cinza);
+  color: var(--verde-escuro);
+  padding: 0.7rem;
+  border-radius: 8px;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: normal;
+  cursor: pointer;
+  position: relative;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%233A503D' viewBox='0 0 16 16'%3e%3cpath d='M4.646 6.646a.5.5 0 01.708 0L8 9.293l2.646-2.647a.5.5 0 11.708.708l-3 3a.5.5 0 01-.708 0l-3-3a.5.5 0 010-.708z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em;
+}
+
+/* Para o texto placeholder "Selecione" usar a mesma cor */
+.register-form select option[value=""] {
+  color: var(--cinza);
+}
+
+#voltar-login {
+  position: fixed;
+  bottom: 20px;       /* distância do rodapé da viewport */
+  left: 50%;          /* centraliza horizontalmente */
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border: 2px solid white; /* borda branca */
+  border-radius: 8px;
+  background-color: rgba(58, 80, 61, 0.8); /* fundo semitransparente verde escuro da paleta */
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1000;      /* para ficar acima de outros elementos */
+  text-decoration: none;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  transition: background-color 0.3s ease;
+}
+
+#voltar-login:hover {
+  background-color: rgba(187, 137, 145, 0.9); /* muda fundo para rosa da paleta ao passar mouse */
+  border-color: white;
+}
+
+#forgot-password-modal {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+#forgot-password-modal label {
+  color: var(--verde-escuro);
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+#forgot-password-modal input[type="text"] {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid var(--cinza);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.code-inputs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.code-inputs input {
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border: 2px solid var(--cinza);
+  border-radius: 8px;
+  outline-offset: 2px;
+  caret-color: var(--rosa);
+}
+
+.code-inputs input:focus {
+  border-color: var(--rosa);
+  box-shadow: 0 0 6px var(--rosa);
+}
+
+/* Botão estilo igual aos outros */
+#forgot-password-modal button {
+  background: var(--rosa);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s ease;
+}
+
+#forgot-password-modal button:hover {
+  background: #a46e77;
+}
+
+/* Link voltar fixo no rodapé */
+#forgot-back-login {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border: 2px solid white;
+  border-radius: 8px;
+  background-color: rgba(58, 80, 61, 0.8);
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1000;
+  text-decoration: none;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  transition: background-color 0.3s ease;
+}
+
+#forgot-back-login:hover {
+  background-color: rgba(187, 137, 145, 0.9);
+  border-color: white;
+}
+
+#loading-spinner {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5); /* fundo preto translúcido */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  z-index: 10000; /* acima de tudo */
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid var(--cinza);
+  border-top: 6px solid var(--rosa);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.success-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* escurece o fundo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.success-content {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.success-icon {
+    font-size: 48px;
+    color: #28a745; /* verdinho sucesso */
+    margin-bottom: 10px;
+}
+
+#success-ok {
+    margin-top: 15px;
+    padding: 8px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#password-requirements {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+#password-requirements li {
+  color: red;
+  margin-bottom: 4px;
+}
+
+#password-requirements li.valid {
+  color: green;
+}
