@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/login/cadastro.css">
+</head>
+
+<body>
+    <!-- Modal de Cadastro -->
+    <div id="register-modal">
+        <h2>Cadastro</h2>
+        <form class="register-form">
+            <div class="age-question-container">
+                <p class="age-question-text">Quantos anos você tem?</p>
+                <div class="checkboxes">
+                    <label><input type="checkbox" name="type" value="crianca"> Criança (5–10 anos)</label>
+                    <label><input type="checkbox" name="type" value="adolescente"> Adolescente (12–17 anos)</label>
+                    <label><input type="checkbox" name="type" value="adulto"> Adulto (+18)</label>
+                </div>
+            </div>
+
+            <!-- Criança ou Adolescente -->
+            <div id="form-kid-teen" class="hidden">
+                <label>Email</label>
+                <input type="email" placeholder="Digite seu email" required />
+
+                <label>Email do responsável</label>
+                <input type="email" placeholder="Digite o email do responsável" required />
+
+                <label>Senha</label>
+                <ul class="password-requirements">
+                    <li id="kid-req-uppercase">Uma letra maiúscula</li>
+                    <li id="kid-req-special">Um caractere especial (@#$%&*)</li>
+                    <li id="kid-req-number">Um número</li>
+                    <li id="kid-req-length">No mínimo 8 caracteres</li>
+                </ul>
+                <input type="password" id="password-cadastro-kid" />
+
+                <label>Idade</label>
+                <input type="number" placeholder="Digite sua idade" required />
+
+                <label>Gênero</label>
+                <select required>
+                    <option value="">Selecione</option>
+                    <option>Masculino</option>
+                    <option>Feminino</option>
+                    <option>Outro</option>
+                </select>
+
+                <label>Telefone dos responsáveis</label>
+                <input type="tel" placeholder="Digite o telefone dos responsáveis" required />
+
+                <label>Seu telefone</label>
+                <input type="tel" placeholder="Digite seu telefone (WhatsApp)" required />
+            </div>
+
+            <!-- Adulto -->
+            <div id="form-adult" class="hidden">
+                <label>Email</label>
+                <input type="email" placeholder="Digite seu email" required />
+
+                <label>Senha</label>
+                <ul class="password-requirements">
+                    <li id="adult-req-uppercase">Uma letra maiúscula</li>
+                    <li id="adult-req-special">Um caractere especial (@#$%&*)</li>
+                    <li id="adult-req-number">Um número</li>
+                    <li id="adult-req-length">No mínimo 8 caracteres</li>
+                </ul>
+                <input type="password" id="password-cadastro-adult" />
+
+                <label>Idade</label>
+                <input type="number" placeholder="Digite sua idade" required />
+
+                <label>Gênero</label>
+                <select required>
+                    <option value="">Selecione</option>
+                    <option>Masculino</option>
+                    <option>Feminino</option>
+                    <option>Outro</option>
+                </select>
+
+                <label>Telefone</label>
+                <input type="tel" placeholder="Digite seu telefone (WhatsApp)" required />
+            </div>
+
+            <button type="submit">Cadastrar</button>
+            <a href="#" id="voltar-login" class="forgot-password">Voltar ao login</a>
+        </form>
+    </div>
+
+    <!-- Modal de Sucesso -->
+    <div id="success-register-modal" class="modal hidden">
+        <div class="modal-content">
+            <svg style="width:50px; height:50px; fill: #3A503D; margin-bottom: 1rem;" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24">
+                <path d="M9 16.17l-3.5-3.5L4 14.17l5 5 12-12-1.41-1.42z" />
+            </svg>
+            <h2 style="color:#3A503D;">Cadastro realizado com sucesso!</h2>
+            <button id="success-register-ok"
+                style="margin-top: 1rem; padding: 0.5rem 1.5rem; border:none; border-radius: 6px; background:#BB8991; color:#fff; font-weight:bold; cursor:pointer;">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const formKidTeen = document.getElementById('form-kid-teen');
+        const formAdult = document.getElementById('form-adult');
+        const checkboxes = document.querySelectorAll('input[name="type"]');
+        const registerForm = document.querySelector('#register-modal form.register-form');
+        const successRegisterModal = document.getElementById('success-register-modal');
+        const successRegisterOk = document.getElementById('success-register-ok');
+
+        // Função que retorna o campo senha ativo e seus requisitos
+        function getActivePasswordField() {
+            const kidInput = document.getElementById('password-cadastro-kid');
+            const adultInput = document.getElementById('password-cadastro-adult');
+
+            if (kidInput && !formKidTeen.classList.contains('hidden')) {
+                return {
+                    input: kidInput,
+                    reqUppercase: document.getElementById('kid-req-uppercase'),
+                    reqSpecial: document.getElementById('kid-req-special'),
+                    reqNumber: document.getElementById('kid-req-number'),
+                    reqLength: document.getElementById('kid-req-length'),
+                };
+            }
+
+            if (adultInput && !formAdult.classList.contains('hidden')) {
+                return {
+                    input: adultInput,
+                    reqUppercase: document.getElementById('adult-req-uppercase'),
+                    reqSpecial: document.getElementById('adult-req-special'),
+                    reqNumber: document.getElementById('adult-req-number'),
+                    reqLength: document.getElementById('adult-req-length'),
+                };
+            }
+
+            return null;
+        }
+
+        // Validação da senha e atualização das cores dos requisitos
+        function validatePassword() {
+            const active = getActivePasswordField();
+            if (!active) return false;
+
+            const password = active.input.value;
+            let isValid = true;
+
+            if (/[A-Z]/.test(password)) {
+                active.reqUppercase.style.color = 'green';
+            } else {
+                active.reqUppercase.style.color = 'red';
+                isValid = false;
+            }
+
+            if (/[@#$%&*]/.test(password)) {
+                active.reqSpecial.style.color = 'green';
+            } else {
+                active.reqSpecial.style.color = 'red';
+                isValid = false;
+            }
+
+            if (/[0-9]/.test(password)) {
+                active.reqNumber.style.color = 'green';
+            } else {
+                active.reqNumber.style.color = 'red';
+                isValid = false;
+            }
+
+            if (password.length >= 8) {
+                active.reqLength.style.color = 'green';
+            } else {
+                active.reqLength.style.color = 'red';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Atualiza listener da senha ativo
+        function attachPasswordInputListener() {
+            const active = getActivePasswordField();
+            if (!active) return;
+
+            // Remove listeners antigos para evitar múltiplos
+            active.input.oninput = null;
+
+            // Adiciona listener de input para validar senha ao digitar
+            active.input.addEventListener('input', validatePassword);
+
+            validatePassword();
+        }
+
+        // Controla o comportamento dos checkboxes para mostrar o formulário certo
+        checkboxes.forEach(box => {
+            box.addEventListener('change', () => {
+                if (box.checked) {
+                    // Desmarca as outras checkboxes
+                    checkboxes.forEach(otherBox => {
+                        if (otherBox !== box) otherBox.checked = false;
+                    });
+
+                    // Exibe o formulário correto
+                    if (box.value === "crianca" || box.value === "adolescente") {
+                        formKidTeen.classList.remove("hidden");
+                        formAdult.classList.add("hidden");
+                    } else if (box.value === "adulto") {
+                        formAdult.classList.remove("hidden");
+                        formKidTeen.classList.add("hidden");
+                    }
+                } else {
+                    // Se desmarcou, esconde os formulários
+                    formKidTeen.classList.add("hidden");
+                    formAdult.classList.add("hidden");
+                }
+
+                attachPasswordInputListener();
+            });
+        });
+
+        // Validação do formulário no submit
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            let activeForm = null;
+            if (!formKidTeen.classList.contains('hidden')) activeForm = formKidTeen;
+            else if (!formAdult.classList.contains('hidden')) activeForm = formAdult;
+
+            if (!activeForm) {
+                alert('Selecione uma faixa etária antes de continuar.');
+                return;
+            }
+
+            // Checa se todos os campos obrigatórios estão preenchidos
+            const inputs = activeForm.querySelectorAll('input[required], select[required]');
+            for (const input of inputs) {
+                if (!input.value.trim()) {
+                    alert('Por favor, preencha todos os campos.');
+                    input.focus();
+                    return;
+                }
+            }
+
+            // Verifica senha
+            if (!validatePassword()) {
+                alert('A senha não atende aos requisitos.');
+                return;
+            }
+
+            // Mostra modal de sucesso
+            successRegisterModal.classList.remove('hidden');
+        });
+
+        // Fecha modal de sucesso e reseta formulário
+        successRegisterOk.addEventListener('click', () => {
+            successRegisterModal.classList.add('hidden');
+            formKidTeen.classList.add('hidden');
+            formAdult.classList.add('hidden');
+
+            registerForm.reset();
+
+            // Reseta cores dos requisitos para vermelho
+            ['kid', 'adult'].forEach(prefix => {
+                document.getElementById(`${prefix}-req-uppercase`).style.color = 'red';
+                document.getElementById(`${prefix}-req-special`).style.color = 'red';
+                document.getElementById(`${prefix}-req-number`).style.color = 'red';
+                document.getElementById(`${prefix}-req-length`).style.color = 'red';
+            });
+
+            // Redireciona para login.html
+            window.location.href = 'login.html';
+        });
+
+    </script>
+
+
+</body>
+
+</html>
